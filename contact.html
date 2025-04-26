@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultation - HomeQouta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2A4D8E;
+            --secondary-blue: #4173CD;
+            --accent: #CE1126;
+            --light-gray: #F4F7FA;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--light-gray);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .contact-container {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        .contact-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .form-card, .advisor-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .form-card:hover, .advisor-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--light-gray);
+        }
+
+        .cta {
+            padding: 1rem 2rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .cta:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        .advisor-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary-blue);
+        }
+
+        .advisor-schedule {
+            list-style: none;
+            padding: 0;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .advisor-schedule li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer h4 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
+        .error-message {
+            color: var(--accent);
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .subheading {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">HomeQouta</div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="compare.html"><i class="fas fa-balance-scale"></i> Compare Loans</a>
+            <a href="guide.html"><i class="fas fa-book-open"></i> Finance Guide</a>
+            <a href="eligibility.html"><i class="fas fa-calculator"></i> Eligibility Check</a>
+        </div>
+    </nav>
+
+    <div class="contact-container">
+        <h2>Expert Consultation</h2>
+        <p class="subheading">Book a session with our CBE-certified mortgage advisors</p>
+
+        <div class="contact-grid">
+            <div class="form-card">
+                <h3>Schedule Consultation</h3>
+                <form id="consultationForm">
+                    <div class="form-group">
+                        <label class="form-label">Appointment Date & Time</label>
+                        <input type="datetime-local" id="appointmentTime" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Loan Type</label>
+                        <select id="loanType" class="form-select" required>
+                            <option value="any">Any</option>
+                            <option value="islamic">Islamic Financing</option>
+                            <option value="conventional">Conventional Loan</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="cta">Schedule Consultation</button>
+                    <div id="errorMessage" class="error-message"></div>
+                </form>
+            </div>
+
+            <div class="advisor-card">
+                <img src="male.jpg" alt="Omar El-Sayed" class="advisor-photo">
+                <h3>Omar El-Sayed</h3>
+                <p>CBE-Certified Mortgage Advisor</p>
+                <ul class="advisor-schedule">
+                    <li>Mon-Fri: 9AM - 5PM</li>
+                    <li>Languages: Arabic, English</li>
+                    <li>Specializes in Islamic Financing</li>
+                </ul>
+            </div>
+
+            <div class="advisor-card">
+                <img src="female.jpg" alt="Mona Hassan" class="advisor-photo">
+                <h3>Mona Hassan</h3>
+                <p>Senior Financial Consultant</p>
+                <ul class="advisor-schedule">
+                    <li>Mon-Fri: 9AM - 5PM</li>
+                    <li>Languages: Arabic, English</li>
+                    <li>Specializes in Conventional Loans</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <h4>HomeQouta</h4>
+            <p>© 2025 All rights reserved</p>
+            <p>Licensed by CBE #MF2025-EG</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyAbliDz-7aDEJ7lIrgmMuDzGMb5BB8KuVI",
+        authDomain: "homequota.firebaseapp.com",
+        projectId: "homequota",
+        storageBucket: "homequota.appspot.com",
+        messagingSenderId: "459346429240",
+        appId: "1:459346429240:web:fa3365169a46d7fdcc2dcd"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+    auth.onAuthStateChanged(async user => {
+        if (!user) window.location.href = 'login.html';
+    });
+
+    document.getElementById('consultationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = '';
+        
+        try {
+            const user = auth.currentUser;
+            if (!user) throw new Error('Authentication required - please login');
+            
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (!userDoc.exists) throw new Error('User profile not found');
+            
+            const userData = userDoc.data();
+            if (!userData?.["phone number"]) throw new Error('Phone number missing in profile');
+            
+            const appointmentTime = document.getElementById('appointmentTime').value;
+            if (!appointmentTime) throw new Error('Please select appointment time');
+
+            const requestData = {
+                number: userData["phone number"],
+                time: firebase.firestore.Timestamp.fromDate(new Date(appointmentTime)),
+                type: document.getElementById('loanType').value,
+                userId: user.uid,
+                status: 'pending',
+                created: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            await db.collection('requests').add(requestData);
+            alert('Consultation booked successfully!\nOur advisor will contact you at ' + userData["phone number"]);
+            window.location.reload();
+        } catch (error) {
+            console.error('Booking error:', error);
+            errorMessage.textContent = error.message;
+        }
+    });
+</script>
+
+</body>
+</html>

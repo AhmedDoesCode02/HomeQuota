@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - HomeQouta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-blue: #2a4d8e;
+      --secondary-blue: #4173cd;
+      --accent: #ce1126;
+      --light-gray: #f4f7fa;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--light-gray);
+      color: #333;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .form-container h1 {
+      color: var(--primary-blue);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: var(--secondary-blue);
+    }
+
+    .register-forget {
+      margin-top: 1rem;
+    }
+
+    .register-forget a {
+      text-decoration: none;
+      color: var(--primary-blue);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .register-forget a:hover {
+      color: var(--secondary-blue);
+    }
+
+    footer {
+      background-color: var(--primary-blue);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">HomeQouta</div>
+  </nav>
+
+  <section class="login-container">
+    <div class="form-container">
+      <h1>Login</h1>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Submit</button>
+      </form>
+      <div class="register-forget">
+        <a href="signup.html">Create Account</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>HomeQouta &copy; 2025 | Licensed by CBE #MF2025-EG</p>
+  </footer>
+
+ <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAbliDz-7aDEJ7lIrgmMuDzGMb5BB8KuVI",
+    authDomain: "homequota.firebaseapp.com",
+    projectId: "homequota",
+    storageBucket: "homequota.firebasestorage.app",
+    messagingSenderId: "459346429240",
+    appId: "1:459346429240:web:fa3365169a46d7fdcc2dcd"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  const loginForm = document.getElementById("loginForm");
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        if (!user.emailVerified) {
+          alert("Please verify your email before logging in.");
+          return;
+        }
+
+        // Success
+        window.location.href = "index.html"; 
+      })
+      .catch((error) => {
+        alert("Login failed: " + error.message);
+      });
+  });
+</script>
+
+</body>
+
+</html>

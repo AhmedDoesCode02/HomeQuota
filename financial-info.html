@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Information - HomeQouta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2A4D8E;
+            --secondary-blue: #4173CD;
+            --accent: #CE1126;
+            --light-gray: #F4F7FA;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--light-gray);
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 700px;
+            margin: 3rem auto;
+        }
+
+        .form-container h3 {
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .btn.submit {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn.submit:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">HomeQouta</div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <section>
+        <div class="form-container">
+            <h3>Financial Information</h3>
+            <form id="financial-form">
+                <div class="form-group">
+                    <label>Monthly Income (EGP)</label>
+                    <input type="number" id="income" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Employment Status</label>
+                    <select id="employment-status" required>
+                        <option value="">Select</option>
+                        <option value="employed">Employed</option>
+                        <option value="self-employed">Self-employed</option>
+                        <option value="unemployed">Unemployed</option>
+                        <option value="student">Student</option>
+                        <option value="retired">Retired</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Do you have existing loans or debts?</label>
+                    <select id="existing-debts" required>
+                        <option value="">Select</option>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>iScore (Credit Score in Egypt)</label>
+                    <input type="number" id="credit-score" min="300" max="900" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Available Down Payment (EGP)</label>
+                    <input type="number" id="down-payment" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Desired Loan Amount (EGP)</label>
+                    <input type="number" id="loan-amount" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Loan Duration (Years)</label>
+                    <input type="number" id="loan-duration" min="1" max="30" required>
+                </div>
+
+                <button type="submit" class="btn submit">Save Financial Info</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>HomeQouta &copy; 2025 | Licensed by CBE #MF2025-EG</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbliDz-7aDEJ7lIrgmMuDzGMb5BB8KuVI",
+            authDomain: "homequota.firebaseapp.com",
+            projectId: "homequota",
+            storageBucket: "homequota.appspot.com",
+            messagingSenderId: "459346429240",
+            appId: "1:459346429240:web:fa3365169a46d7fdcc2dcd"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = 'login.html';
+            else if (!user.emailVerified) {
+                auth.signOut().then(() => window.location.href = 'login.html');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => window.location.href = 'login.html');
+        });
+
+        document.getElementById('financial-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+
+            if (!user) {
+                alert('Session expired. Please login again.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const financialData = {
+                income: document.getElementById('income').value,
+                employmentStatus: document.getElementById('employment-status').value,
+                existingDebts: document.getElementById('existing-debts').value,
+                creditScore: document.getElementById('credit-score').value,
+                downPayment: document.getElementById('down-payment').value,
+                loanAmount: document.getElementById('loan-amount').value,
+                loanDuration: document.getElementById('loan-duration').value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('users').doc(user.uid).set({
+                    financialInfo: financialData
+                }, { merge: true });
+                alert('Financial info saved successfully!');
+                window.location.href = 'compare.html';
+            } catch (error) {
+                console.error('Error saving financial info:', error);
+                alert('Failed to save. Try again later.');
+            }
+        });
+    </script>
+</body>
+</html>

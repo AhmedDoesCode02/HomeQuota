@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eligibility Check - HomeQouta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Corrected Font Awesome CDN Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #2A4D8E;
+      --secondary-blue: #4173CD;
+      --accent: #CE1126;
+      --light-gray: #F4F7FA;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+    body { background: var(--light-gray); color: #333; }
+
+    nav.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+
+    .nav-links a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--primary-blue);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .eligibility-container {
+      padding: 4rem 5%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h2 { font-size: 2rem; color: var(--primary-blue); margin-bottom: 1rem; }
+
+    .subheading { color: #555; margin-bottom: 2rem; }
+
+    .form-card, .result-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .input-group { margin-bottom: 1.5rem; }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button.cta {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-blue);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button.cta:hover { background: var(--secondary-blue); }
+
+    .result-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 1.5rem 0;
+    }
+
+    .bank-match {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .bank-match-card {
+      display: flex;
+      align-items: center;
+      background: var(--light-gray);
+      padding: 1rem;
+      border-radius: 10px;
+      gap: 1rem;
+      transition: transform 0.3s;
+    }
+
+    .bank-match-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .bank-logo-small {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    footer {
+      background: white;
+      margin-top: 4rem;
+      padding: 2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+      font-size: 0.9rem;
+      color: #555;
+      box-shadow: var(--shadow);
+    }
+
+    footer div h4 { margin-bottom: 1rem; color: var(--primary-blue); }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo">HomeQouta</div>
+    <div class="nav-links">
+           <a href="index.html"><i class="fas fa-home"></i> Home</a>
+           <a href="compare.html"><i class="fas fa-balance-scale"></i> Compare Loans</a>
+            <a href="guide.html"><i class="fas fa-book-open"></i> Finance Guide</a>
+            <a href="contact.html"><i class="fas fa-phone-alt"></i> Consultation</a>
+       
+
+    </div>
+  </nav>
+
+  <div class="eligibility-container">
+    <h2>Mortgage Eligibility Checker</h2>
+    <p class="subheading">Determine your borrowing capacity according to Egyptian banking regulations</p>
+
+    <div class="form-card">
+      <div class="input-group">
+        <label>Monthly Income (EGP)</label>
+        <input type="number" id="income" placeholder="25000">
+      </div>
+      <div class="input-group">
+        <label>Employment Type</label>
+        <select id="employment">
+          <option>Government Employee</option>
+          <option>Private Sector</option>
+          <option>Business Owner</option>
+          <option>Freelancer</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Current Monthly Obligations (EGP)</label>
+        <input type="number" id="obligations" placeholder="5000">
+      </div>
+      <button class="cta" onclick="calculateEligibility()">Check Eligibility</button>
+    </div>
+
+    <div class="result-card" id="result-section" style="display:none;">
+      <h3>Your Mortgage Capacity</h3>
+      <div class="result-value" id="mortgage-amount">0 EGP</div>
+      <p>Based on Central Bank of Egypt regulations and your financial profile</p>
+
+      <div class="bank-match" id="bank-matches">
+        <!-- dynamic content here -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <h4>HomeQouta</h4>
+      <p>© 2025 All rights reserved</p>
+      <p>Licensed by CBE #MF2025-EG</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>New Cairo, Egypt</p>
+      <p>contact@homeqouta.eg</p>
+      <p>+20 123 456 7890</p>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <p>Privacy Policy</p>
+      <p>Terms of Service</p>
+      <p>Compliance</p>
+    </div>
+  </footer>
+
+  <script>
+    function calculateEligibility() {
+      const income = parseFloat(document.getElementById('income').value) || 0;
+      const obligations = parseFloat(document.getElementById('obligations').value) || 0;
+
+      const availableIncome = income * 0.4 - obligations;
+      const annualIncome = availableIncome * 12;
+      const mortgageCapacity = annualIncome * 20; // 20 years estimate
+
+      const formattedMortgage = mortgageCapacity.toLocaleString('en-EG') + ' EGP';
+      document.getElementById('mortgage-amount').textContent = formattedMortgage;
+
+      document.getElementById('result-section').style.display = 'block';
+document.getElementById('bank-matches').style.display = 'none';    }
+  </script>
+
+</body>
+</html>

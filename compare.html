@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Comparison - HomeQouta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Previous CSS remains the same */
+        :root {
+            --primary-blue: #2A4D8E;
+            --secondary-blue: #4173CD;
+            --accent: #CE1126;
+            --light-gray: #F4F7FA;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--light-gray);
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .container {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary-blue);
+            background: transparent;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .loan-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .loan-card {
+            position: relative;
+        }
+
+        .bank-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bank-logo {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+        }
+
+        .islamic-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #009688;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .loan-details {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .egp {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 4rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .no-data h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .cta-btn:hover {
+            background: var(--secondary-blue);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">HomeQouta</div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="guide.html"><i class="fas fa-book-open"></i> Finance Guide</a>
+            <a href="eligibility.html"><i class="fas fa-calculator"></i> Eligibility Check</a>
+            <a href="financial-info.html"><i class="fas fa-wallet"></i> Financial Info</a>
+            <a href="contact.html"><i class="fas fa-phone-alt"></i> Consultation</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="comparison-header">
+            <h2>Compare Egyptian Mortgage Offers</h2>
+            <p>Updated according to CBE regulations - 2025</p>
+        </div>
+
+        <div id="loanContainer">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 HomeQouta. All rights reserved.</p>
+        <p>Licensed by Central Bank of Egypt #2025-MF-124</p>
+    </footer>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbliDz-7aDEJ7lIrgmMuDzGMb5BB8KuVI",
+            authDomain: "homequota.firebaseapp.com",
+            projectId: "homequota",
+            storageBucket: "homequota.appspot.com",
+            messagingSenderId: "459346429240",
+            appId: "1:459346429240:web:fa3365169a46d7fdcc2dcd"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Loan offers database
+         const loanOffers = [
+        // Islamic Options
+        {
+            bank: "Faisal Islamic Bank",
+            type: "islamic",
+            logo: "faisal-logo.png",
+            rate: 10.5,
+            maxAmount: 4000000,
+            minIncome: 50000,
+            minCreditScore: 650,
+            downPayment: 20,
+            conditions: "Sharia-compliant mortgage"
+        },
+        {
+            bank: "Abu Dhabi Islamic Bank",
+            type: "islamic",
+            logo: "adb-logo.png",
+            rate: 11.0,
+            maxAmount: 3500000,
+            minIncome: 45000,
+            minCreditScore: 620,
+            downPayment: 25,
+            conditions: "Islamic home financing"
+        },
+
+        // High-Income Conventional Loans
+        {
+            bank: "HSBC Egypt",
+            type: "conventional",
+            logo: "hsbc-egypt-logo.png",
+            rate: 12.5,
+            maxAmount: 10000000,
+            minIncome: 100000,
+            minCreditScore: 750,
+            downPayment: 20,
+            conditions: "Premium banking customers only"
+        },
+        {
+            bank: "QNB Al Ahli",
+            type: "conventional",
+            logo: "qnb-logo.png",
+            rate: 13.0,
+            maxAmount: 8000000,
+            minIncome: 60000,
+            minCreditScore: 720,
+            downPayment: 15,
+            conditions: "Minimum 5 years employment"
+        },
+
+        // Middle-Income Conventional Loans
+        {
+            bank: "Commercial International Bank (CIB)",
+            type: "conventional",
+            logo: "cib-logo.png",
+            rate: 14.0,
+            maxAmount: 5000000,
+            minIncome: 30000,
+            minCreditScore: 680,
+            downPayment: 20,
+            conditions: "Flexible repayment options"
+        },
+        {
+            bank: "National Bank of Egypt (NBE)",
+            type: "conventional",
+            logo: "nbe-logo.png",
+            rate: 12.0,
+            maxAmount: 3000000,
+            minIncome: 20000,
+            minCreditScore: 600,
+            downPayment: 15,
+            conditions: "Government employee discount"
+        },
+
+        // Low-Income Conventional Loans
+        {
+            bank: "NBE Starter Mortgage",
+            type: "conventional",
+            logo: "nbe-logo.png",
+            rate: 13.5,
+            maxAmount: 1500000,
+            minIncome: 15000,
+            minCreditScore: 580,
+            downPayment: 10,
+            conditions: "First-time home buyers only"
+        },
+        {
+            bank: "QNB Affordable Housing",
+            type: "conventional",
+            logo: "qnb-logo.png",
+            rate: 14.5,
+            maxAmount: 2000000,
+            minIncome: 20000,
+            minCreditScore: 600,
+            downPayment: 15,
+            conditions: "New urban communities only"
+        },
+
+        // Special Programs
+        {
+            bank: "CIB Young Professionals",
+            type: "conventional",
+            logo: "cib-logo.png",
+            rate: 12.8,
+            maxAmount: 3500000,
+            minIncome: 60000,
+            minCreditScore: 660,
+            downPayment: 10,
+            conditions: "Under 35 years old"
+        },
+        {
+            bank: "HSBC Expat Mortgage",
+            type: "conventional",
+            logo: "hsbc-logo.png",
+            rate: 11.9,
+            maxAmount: 15000000,
+            minIncome: 1200000,
+            minCreditScore: 800,
+            downPayment: 35,
+            conditions: "Foreign currency income"
+        },
+        {
+            bank: "ADIB Family Finance",
+            type: "islamic",
+            logo: "adb-logo.png",
+            rate: 11.2,
+            maxAmount: 2500000,
+            minIncome: 15000,
+            minCreditScore: 630,
+            downPayment: 20,
+            conditions: "Family support program"
+        },
+        {
+            bank: "Faisal Islamic Starter",
+            type: "islamic",
+            logo: "faisal-logo.png",
+            rate: 12.0,
+            maxAmount: 1800000,
+            minIncome: 12000,
+            minCreditScore: 600,
+            downPayment: 15,
+            conditions: "First Islamic mortgage"
+        }
+    ];
+
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (!userDoc.exists || !userDoc.data().financialInfo) {
+                showNoDataWarning();
+                return;
+            }
+
+            const financialData = userDoc.data().financialInfo;
+            displayLoans(financialData);
+            setupFilters();
+        });
+
+        function showNoDataWarning() {
+            const container = document.getElementById('loanContainer');
+            container.innerHTML = `
+                <div class="no-data">
+                    <h3>No Financial Information Found</h3>
+                    <p>Please provide your financial details to view personalized loan options.</p>
+                    <button class="cta-btn" onclick="window.location.href='financial-info.html'">
+                        Go to Financial Info
+                    </button>
+                </div>
+            `;
+        }
+
+        function displayLoans(userData) {
+            const container = document.getElementById('loanContainer');
+            let eligibleLoans = loanOffers.filter(loan => 
+                userData.income >= loan.minIncome &&
+                userData.creditScore >= loan.minCreditScore &&
+                userData.downPayment >= loan.downPayment
+            );
+
+            if (eligibleLoans.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        <h3>No Eligible Loans Found</h3>
+                        <p>Based on your financial information, you don't currently qualify for any loans.</p>
+                        <button class="cta-btn" onclick="window.location.href='financial-info.html'">
+                            Update Financial Info
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="conventional">Conventional</button>
+                    <button class="filter-btn" data-filter="islamic">Islamic</button>
+                </div>
+                <div class="loan-grid">
+            `;
+
+            eligibleLoans.forEach(loan => {
+                html += `
+                    <div class="card loan-card ${loan.type}">
+                        ${loan.type === 'islamic' ? 
+                        '<span class="islamic-badge">Islamic Option</span>' : ''}
+                        <div class="bank-header">
+                            <img src="${loan.logo}" alt="${loan.bank}" class="bank-logo">
+                            <h3>${loan.bank}</h3>
+                        </div>
+                        <div class="loan-details">
+                            <div class="detail-item">
+                                <span>${loan.type === 'islamic' ? 'Profit Rate' : 'Interest Rate'}</span>
+                                <span class="egp">${loan.rate}%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Max Financing</span>
+                                <span class="egp">${loan.maxAmount.toLocaleString()} EGP</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Down Payment</span>
+                                <span>${loan.downPayment}%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Requirements</span>
+                                <span>Income: ${loan.minIncome.toLocaleString()}+ EGP</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function setupFilters() {
+            const buttons = document.querySelectorAll(".filter-btn");
+            const cards = document.querySelectorAll(".loan-card");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    buttons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    const filter = btn.dataset.filter;
+
+                    cards.forEach(card => {
+                        if (filter === "all") {
+                            card.style.display = "block";
+                        } else if (card.classList.contains(filter)) {
+                            card.style.display = "block";
+                        } else {
+                            card.style.display = "none";
+                        }
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>

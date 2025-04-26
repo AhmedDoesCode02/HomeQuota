@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeQouta - Egyptian Apartment Financing Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+
+        :root {
+            --primary-blue: #2A4D8E;
+            --secondary-blue: #4173CD;
+            --accent: #CE1126;
+            --light-gray: #F4F7FA;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+  @media (max-width: 768px) {
+    /* responsive styles */
+  }
+
+  /* your greeting animation */
+ #greeting {
+    min-height: 2rem; /* reserve enough height */
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+#greeting.fade-in {
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+        body {
+            background: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--light-gray) 0%, white 100%);
+            padding: 6rem 5%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #555;
+        }
+
+        .cta-buttons {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cta {
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+        }
+
+        .primary-cta {
+            background: var(--accent);
+            color: white;
+        }
+
+        .secondary-cta {
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            background: white;
+        }
+
+        .bank-logos {
+            background: white;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .bank-logos img {
+            height: 50px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .bank-logos img:hover {
+            opacity: 1;
+        }
+
+        .features {
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">HomeQouta</div>
+        <div class="nav-links">
+            <a href="financial-info.html"><i class="fas fa-wallet"></i> Financial Info</a>
+            <a href="compare.html"><i class="fas fa-balance-scale"></i> Compare Loans</a>
+            <a href="guide.html"><i class="fas fa-book-open"></i> Finance Guide</a>
+            <a href="eligibility.html"><i class="fas fa-calculator"></i> Eligibility Check</a>
+            <a href="contact.html"><i class="fas fa-phone-alt"></i> Consultation</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+<div id="greeting" style="margin: 1rem 5% 0; font-size: 1.2rem; font-weight: 500; color: var(--primary-blue);"></div>
+    <section class="hero">
+
+        <h1>Smart Apartment Financing for Egyptians</h1>
+        <p>Compare mortgage options from Egyptian banks in EGP</p>
+        <div class="cta-buttons">
+            <a href="compare.html" class="cta secondary-cta">Compare Loans</a>
+            <a href="eligibility.html" class="cta secondary-cta">Check Eligibility</a>
+            <a href="guide.html" class="cta secondary-cta">Finance Guide</a>
+            <a href="contact.html" class="cta secondary-cta">Consultation</a>
+        </div>
+    </section>
+
+    <div class="bank-logos">
+        <img src="nbe-logo.png" alt="National Bank of Egypt">
+        <img src="faisal-logo.png" alt="Faisal Islamic Bank">
+        <img src="cib-logo.png" alt="Commercial International Bank">
+        <img src="qnb-logo.png" alt="QNB Al Ahli">
+        <img src="hsbc-egypt-logo.png" alt="HSBC Egypt">
+        <img src="adb-logo.png" alt="Abu Dhabi Bank">
+
+
+    </div>
+
+    <section class="features">
+        <div class="feature-card">
+            <i class="fas fa-mosque fa-2x"></i>
+            <h3>Islamic Financing</h3>
+            <p>Sharia-compliant mortgage options</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-landmark fa-2x"></i>
+            <h3>CBE Certified</h3>
+            <p>Central Bank of Egypt regulated</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-hand-holding-usd fa-2x"></i>
+            <h3>EGP Calculators</h3>
+            <p>All calculations in Egyptian Pounds</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 HomeQouta. All rights reserved.</p>
+        <p>Licensed by Central Bank of Egypt #2025-MF-124</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbliDz-7aDEJ7lIrgmMuDzGMb5BB8KuVI",
+            authDomain: "homequota.firebaseapp.com",
+            projectId: "homequota",
+            storageBucket: "homequota.appspot.com",
+            messagingSenderId: "459346429240",
+            appId: "1:459346429240:web:fa3365169a46d7fdcc2dcd"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+       auth.onAuthStateChanged((user) => {
+    if (!user) {
+        window.location.href = 'login.html';
+    } else if (!user.emailVerified) {
+        auth.signOut().then(() => window.location.href = 'login.html');
+    } else {
+        // Fetch user's first name (field: "first name")
+        db.collection('users').doc(user.uid).get().then(doc => {
+            if (doc.exists) {
+                const firstName = doc.data()["first name"] || '';
+              const greetingElement = document.getElementById('greeting');
+greetingElement.textContent = `Hello, ${firstName}`;
+greetingElement.classList.add('fade-in');
+
+            }
+        }).catch(error => {
+            console.error('Error fetching user data:', error);
+        });
+    }
+});
+
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => window.location.href = 'login.html');
+        });
+    </script>
+</body>
+</html>

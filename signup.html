@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - HomeQouta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <style>
+    /* Your same CSS here */
+    :root {
+      --primary-blue: #2A4D8E;
+      --secondary-blue: #4173CD;
+      --accent: #CE1126;
+      --light-gray: #F4F7FA;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--light-gray);
+      color: #333;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    .form-container {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 600px;
+      margin: 3rem auto;
+    }
+
+    .form-container h3 {
+      color: var(--primary-blue);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .btn.signup {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn.signup:hover {
+      background-color: var(--secondary-blue);
+    }
+
+    .signin-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .signin-link a {
+      text-decoration: none;
+      color: var(--primary-blue);
+    }
+
+    footer {
+      background-color: var(--primary-blue);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">HomeQouta</div>
+  </nav>
+
+  <section>
+    <div class="form-container">
+      <h3>Register</h3>
+      <form id="signup-form">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="fname" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lname" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="confirm-password" required>
+        </div>
+
+        <h4 style="margin-top: 2rem;">Personal Information</h4>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" id="phone">
+        </div>
+
+        <h4 style="margin-top: 2rem;">Address</h4>
+        <div class="form-group">
+          <label>City</label>
+          <select id="city">
+            <option value="Giza">Giza</option>
+            <option value="Cairo">Cairo</option>
+            <option value="Alexandria">Alexandria</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Street Address</label>
+          <input type="text" id="address">
+        </div>
+        <div class="form-group">
+          <label>Zip Code</label>
+          <input type="text" id="zipcode">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <input type="checkbox" id="terms" required>
+          <span>I agree to the terms</span>
+        </div>
+
+        <div class="signin-link">
+          Already have an account? <a href="login.html">Login</a>
+        </div>
+
+        <button type="submit" class="btn signup">Create Account</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>HomeQouta &copy; 2025 | Licensed by CBE #MF2025-EG</p>
+  </footer>
+
+<script>
+  // Your Firebase config here
+  const firebaseConfig = {
+    apiKey: "AIzaSyAbliDz-7aDEJ7lIrgmMuDzGMb5BB8KuVI",
+    authDomain: "homequota.firebaseapp.com",
+    projectId: "homequota",
+    storageBucket: "homequota.firebasestorage.app",
+    messagingSenderId: "459346429240",
+    appId: "1:459346429240:web:fa3365169a46d7fdcc2dcd"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const fname = document.getElementById('fname').value;
+    const lname = document.getElementById('lname').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const phone = document.getElementById('phone').value;
+    const city = document.getElementById('city').value;
+    const address = document.getElementById('address').value;
+    const zipcode = document.getElementById('zipcode').value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+
+      // Send email verification
+      await user.sendEmailVerification();
+      console.log('Verification email sent.');
+
+      // Save extra user data in Firestore
+      await db.collection('users').doc(user.uid).set({
+        "first name": fname,
+        "last name": lname,
+        city: city,
+        "phone number": phone,
+        "street address": address,
+        "zip code": zipcode
+      });
+
+      alert('Account created successfully! Please verify your email.');
+      window.location.href = 'login.html'; // Redirect after signup
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  });
+</script>
+
+
+</body>
+
+</html>
