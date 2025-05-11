@@ -199,6 +199,21 @@
                 display: none;
             }
         }
+.recommended-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    background: var(--accent);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+}
+
     </style>
 </head>
 <body>
@@ -423,70 +438,112 @@
             `;
         }
 
-        function displayLoans(userData) {
-            const container = document.getElementById('loanContainer');
-            let eligibleLoans = loanOffers.filter(loan => 
-                userData.income >= loan.minIncome &&
-                userData.creditScore >= loan.minCreditScore &&
-                userData.downPayment >= loan.downPayment
-            );
+       function displayLoans(userData) {
+    const container = document.getElementById('loanContainer');
+    let eligibleLoans = loanOffers.filter(loan => 
+        userData.income >= loan.minIncome &&
+        userData.creditScore >= loan.minCreditScore &&
+        userData.downPayment >= loan.downPayment
+    );
 
-            if (eligibleLoans.length === 0) {
-                container.innerHTML = `
-                    <div class="no-data">
-                        <h3>No Eligible Loans Found</h3>
-                        <p>Based on your financial information, you don't currently qualify for any loans.</p>
-                        <button class="cta-btn" onclick="window.location.href='financial-info.html'">
-                            Update Financial Info
-                        </button>
-                    </div>
-                `;
-                return;
-            }
+    if (eligibleLoans.length === 0) {
+        container.innerHTML = `
+            <div class="no-data">
+                <h3>No Eligible Loans Found</h3>
+                <p>Based on your financial information, you don't currently qualify for any loans.</p>
+                <button class="cta-btn" onclick="window.location.href='financial-info.html'">
+                    Update Financial Info
+                </button>
+            </div>
+        `;
+        return;
+    }
 
-            let html = `
-                <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="conventional">Conventional</button>
-                    <button class="filter-btn" data-filter="islamic">Islamic</button>
+    // AI-like recommendation: pick best loan (lowest rate)
+    let recommendedLoan = eligibleLoans.reduce((best, loan) => {
+        return loan.rate < best.rate ? loan : best;
+    }, eligibleLoans[0]);
+
+    let html = `
+        <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="conventional">Conventional</button>
+            <button class="filter-btn" data-filter="islamic">Islamic</button>
+        </div>
+        <div class="loan-grid">
+    `;
+
+    // Display all eligible loans, marking the recommended one
+    eligibleLoans.forEach(loan => {
+        const isRecommended = (loan === recommendedLoan);
+        html += `
+            <div class="card loan-card ${loan.type}" data-loan-type="${loan.type}">
+                ${isRecommended ? `<span class="recommended-badge">Recommended</span>` : ''}
+                ${loan.type === 'islamic' ? `<span class="islamic-badge">Islamic Option</span>` : ''}
+                <div class="bank-header">
+                    <img src="${loan.logo}" alt="${loan.bank}" class="bank-logo">
+                    <h3>${loan.bank}</h3>
                 </div>
-                <div class="loan-grid">
-            `;
-
-            eligibleLoans.forEach(loan => {
-                html += `
-                    <div class="card loan-card ${loan.type}">
-                        ${loan.type === 'islamic' ? 
-                        '<span class="islamic-badge">Islamic Option</span>' : ''}
-                        <div class="bank-header">
-                            <img src="${loan.logo}" alt="${loan.bank}" class="bank-logo">
-                            <h3>${loan.bank}</h3>
-                        </div>
-                        <div class="loan-details">
-                            <div class="detail-item">
-                                <span>${loan.type === 'islamic' ? 'Profit Rate' : 'Interest Rate'}</span>
-                                <span class="egp">${loan.rate}%</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>Max Financing</span>
-                                <span class="egp">${loan.maxAmount.toLocaleString()} EGP</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>Down Payment</span>
-                                <span>${loan.downPayment}%</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>Requirements</span>
-                                <span>Income: ${loan.minIncome.toLocaleString()}+ EGP</span>
-                            </div>
-                        </div>
+                <div class="loan-details">
+                    <div class="detail-item">
+                        <span>${loan.type === 'islamic' ? 'Profit Rate' : 'Interest Rate'}</span>
+                        <span class="egp">${loan.rate}%</span>
                     </div>
-                `;
-            });
+                    <div class="detail-item">
+                        <span>Max Financing</span>
+                        <span class="egp">${loan.maxAmount.toLocaleString()} EGP</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Down Payment</span>
+                        <span>${loan.downPayment}%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Requirements</span>
+                        <span>Income: ${loan.minIncome.toLocaleString()}+ EGP</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
 
-            html += '</div>';
-            container.innerHTML = html;
-        }
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+
+function generateLoanCard(loan, isRecommended) {
+    return `
+        <div class="card loan-card ${loan.type}">
+            ${loan.type === 'islamic' ? 
+            '<span class="islamic-badge">Islamic Option</span>' : ''}
+            ${isRecommended ? 
+            '<span class="islamic-badge" style="background:#FF5722; top: 3.5rem;">Recommended</span>' : ''}
+            <div class="bank-header">
+                <img src="${loan.logo}" alt="${loan.bank}" class="bank-logo">
+                <h3>${loan.bank}</h3>
+            </div>
+            <div class="loan-details">
+                <div class="detail-item">
+                    <span>${loan.type === 'islamic' ? 'Profit Rate' : 'Interest Rate'}</span>
+                    <span class="egp">${loan.rate}%</span>
+                </div>
+                <div class="detail-item">
+                    <span>Max Financing</span>
+                    <span class="egp">${loan.maxAmount.toLocaleString()} EGP</span>
+                </div>
+                <div class="detail-item">
+                    <span>Down Payment</span>
+                    <span>${loan.downPayment}%</span>
+                </div>
+                <div class="detail-item">
+                    <span>Requirements</span>
+                    <span>Income: ${loan.minIncome.toLocaleString()}+ EGP</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 
         function setupFilters() {
             const buttons = document.querySelectorAll(".filter-btn");
